@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 import express, { Request, Response } from 'express';
 import mongoose from 'mongoose';
 
@@ -19,7 +21,7 @@ app.post('/decks', async (req: Request, res: Response) => {
 });
 
 mongoose.set('strictQuery', true);
-mongoose.connect('mongodb+srv://mernstack:TqzacvNdbtmWDiMV@mern-stack-web-applicat.nmhumqa.mongodb.net/?retryWrites=true&w=majority').then(() => {
+mongoose.connect(process.env.MONGO_URL!).then(() => {
   app.listen(port, () => {
     console.log(`Server is listening on port ${port}`)
   });

@@ -19,6 +19,7 @@
 }
 
 .decks li {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -40,4 +41,13 @@
   /*"FR" expand columns to meet the full width of the container*/
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 10px;
+}
+
+.decks li button {
+  position: absolute;
+  font-size: 9px;
+  top: 0px;
+  right: 2px;
+  background-color: rgb(41, 39, 39);
+  color: #fff;
 }

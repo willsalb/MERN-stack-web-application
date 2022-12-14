@@ -18,7 +18,7 @@ function App() {
     e.preventDefault();
 
     //persisting data in api
-    await fetch('http://localhost:8001/decks', {
+    const response = await fetch('http://localhost:8001/decks', {
       //Making request to the backend and send data
       method: 'POST',
       body: JSON.stringify({
@@ -28,6 +28,9 @@ function App() {
         "Content-type": 'application/json',
       }
     });
+    const deck = await response.json();
+    //Re-render a new array and adding the new deck that came from backend
+    setDecks([...decks, deck]);
 
     setTitle('');
   }
@@ -42,12 +45,23 @@ function App() {
     fetchDecks(); 
   }, []);
 
+  async function handleDeleteDeck(deckId: string) {
+    await fetch(`http://localhost:8001/decks/${deckId}`, {
+      method: 'DELETE',
+    });
+    //Loop through to the decks and filter the one that matches to the deckId
+    setDecks(decks.filter((deck) => deck._id !== deckId));
+  }
+
   return (
     <div className="App">
       <ul className='decks'>
         {decks.map((deck) => (
         //Loop over a collection of elements and return new JSX for every entry
-          <li key={deck._id}>{deck.title}</li>
+          <li key={deck._id}>
+            <button onClick={() => handleDeleteDeck(deck._id)}>X</button>
+            {deck.title}
+          </li>
         ))}
       </ul>
       <form onSubmit={handleCreateDeck}>

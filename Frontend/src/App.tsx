@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
-
-
-type TDeck = {
-  title: string,
-  _id: string
-}
+import { Link } from 'react-router-dom';
+import { createDeck, deleteDeck, getDecks, TDeck } from './api/decks';
 
 function App() {
   const [title, setTitle] = useState('');
@@ -17,19 +13,8 @@ function App() {
     //Don't refresh the page
     e.preventDefault();
 
-    //persisting data in api
-    const response = await fetch('http://localhost:8001/decks', {
-      //Making request to the backend and send data
-      method: 'POST',
-      body: JSON.stringify({
-        title,
-      }),
-      headers: {
-        "Content-type": 'application/json',
-      }
-    });
-    const deck = await response.json();
     //Re-render a new array and adding the new deck that came from backend
+    const deck = await createDeck(title);
     setDecks([...decks, deck]);
 
     setTitle('');
@@ -38,17 +23,14 @@ function App() {
   useEffect(() => {
     async function fetchDecks() {
       //Get all the array of data is required to need to call response.json
-      const response = await fetch('http://localhost:8001/decks');
-      const newDecks = await response.json();
+      const newDecks = await getDecks();
       setDecks(newDecks);
     }
     fetchDecks(); 
   }, []);
 
   async function handleDeleteDeck(deckId: string) {
-    await fetch(`http://localhost:8001/decks/${deckId}`, {
-      method: 'DELETE',
-    });
+    await deleteDeck(deckId);
     //Loop through to the decks and filter the one that matches to the deckId
     setDecks(decks.filter((deck) => deck._id !== deckId));
   }
@@ -60,7 +42,7 @@ function App() {
         //Loop over a collection of elements and return new JSX for every entry
           <li key={deck._id}>
             <button onClick={() => handleDeleteDeck(deck._id)}>X</button>
-            {deck.title}
+            <Link to={`decks/${deck._id}`}>{deck.title}</Link>
           </li>
         ))}
       </ul>

@@ -32,7 +32,7 @@ app.delete('/decks/:deckId', async (req: Request, res: Response) => {
   const deckId = req.params.deckId;
 
   const deck = await Deck.findByIdAndDelete(deckId);
-
+  
   res.json(deck);
 });
 

@@ -49,6 +49,9 @@ export default function Deck() {
 
   return (
     <div className="Deck">
+
+      <h1>{deck?.title}</h1>
+
       <ul className='cards'>
         {cards.map((card, index) => (
         //Loop over a collection of elements and return new JSX for every entry

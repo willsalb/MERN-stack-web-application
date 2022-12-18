@@ -36,25 +36,30 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <ul className='decks'>
-        {decks.map((deck) => (
-        //Loop over a collection of elements and return new JSX for every entry
-          <li key={deck._id}>
-            <button onClick={() => handleDeleteDeck(deck._id)}>X</button>
-            <Link to={`decks/${deck._id}`}>{deck.title}</Link>
-          </li>
-        ))}
-      </ul>
-      <form onSubmit={handleCreateDeck}>
-        <label htmlFor='title'>Title</label>
-        <input id='title' type="text" value={title}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            setTitle(e.target.value);
-          }}
-        />
-        <button>Create</button>
-      </form>
+    <div className='container'>
+      <div className="App">
+
+        <h1>Your Decks</h1>
+
+        <ul className='decks'>
+          {decks.map((deck) => (
+          //Loop over a collection of elements and return new JSX for every entry
+            <li key={deck._id}>
+              <button onClick={() => handleDeleteDeck(deck._id)}>X</button>
+              <Link to={`decks/${deck._id}`}>{deck.title}</Link>
+            </li>
+          ))}
+        </ul>
+        <form onSubmit={handleCreateDeck}>
+          <label htmlFor='title'>Title</label>
+          <input id='title' type="text" value={title}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              setTitle(e.target.value);
+            }}
+          />
+          <button>Create</button>
+        </form>
+      </div>
     </div>
   )
 }
